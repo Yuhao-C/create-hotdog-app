@@ -1,0 +1,66 @@
+{
+  "name": "create-hotdog-app",
+  "version": "0.0.0-development",
+  "description": "",
+  "main": "./lib/index.js",
+  "bin": {
+    "create-hotdog-app": "./bin/create-hotdog-app.js"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts project-name",
+    "build": "rm -rf ./lib && tsc -p . && yarn post-build",
+    "post-build": "cpy './template/**/*' '../lib' --cwd=src --parents --dot",
+    "commit": "cz"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "babel",
+    "webpack",
+    "prettier",
+    "eslint",
+    "stylelint",
+    "commitlint",
+    "lint-staged",
+    "husky"
+  ],
+  "author": "Yuhao Chen <yuhaochen0107@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.11",
+    "@types/node": "^15.12.5",
+    "@types/prompts": "^2.0.13",
+    "@types/semver": "^7.3.6",
+    "@types/validate-npm-package-name": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "cpy-cli": "^3.1.1",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^7.29.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.2",
+    "semantic-release": "^17.4.4",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "commander": "^4.1.1",
+    "fs-extra": "^10.0.0",
+    "prompts": "^2.4.1",
+    "semver": "^7.3.5",
+    "v8-compile-cache": "^2.3.0",
+    "validate-npm-package-name": "^3.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
