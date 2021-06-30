@@ -13,7 +13,7 @@
   "scripts": {
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts project-name",
     "build": "rm -rf ./lib && tsc -p . && yarn post-build",
-    "post-build": "cpy './template/**/*' '../lib' --cwd=src --parents --dot",
+    "post-build": "cpy './template/**/*' './lib' --parents --dot",
     "commit": "cz"
   },
   "keywords": [

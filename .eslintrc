@@ -14,5 +14,5 @@
     "node": true
   },
   "plugins": ["prettier", "@typescript-eslint"],
-  "ignorePatterns": ["./src/template/*", "lib"]
+  "ignorePatterns": ["template", "lib"]
 }
