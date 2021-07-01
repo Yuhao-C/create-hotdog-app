@@ -199,6 +199,10 @@ export const getPackageJsonFields = (
   return prompt(questions);
 };
 
+export const renameGitignore = (dir: string): void => {
+  fs.renameSync(path.join(dir, 'gitignore'), path.join(dir, '.gitignore'));
+};
+
 export const updateReadme = (name: string, dir: string): void => {
   const readmePath = path.join(dir, 'README.md');
   const readme = fs.readFileSync(readmePath).toString().split('\n');

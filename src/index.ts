@@ -9,6 +9,7 @@ import {
   appNameCheck,
   checkDirSafe,
   getPackageJsonFields,
+  renameGitignore,
   updateReadme,
   updatePackageJson,
   printSuccessMessage,
@@ -60,6 +61,8 @@ const main = async () => {
     // copy file to user directory
     const templateDir = path.resolve(__dirname, 'template');
     fs.copySync(templateDir, root);
+
+    renameGitignore(root);
 
     updateReadme(packageJsonFields.name || appName, root);
 
