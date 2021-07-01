@@ -4,16 +4,15 @@
   "description": "Production-ready all-in-one react typescript boilerplate, with babel, webpack, prettier, eslint, stylelint, commitlint, lint-staged, and husky.",
   "main": "./lib/index.js",
   "bin": {
-    "create-hotdog-app": "./bin/create-hotdog-app.js"
+    "create-hotdog-app": "./lib/cli.js"
   },
   "files": [
-    "bin",
     "lib"
   ],
   "scripts": {
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts project-name",
     "build": "rm -rf ./lib && tsc -p . && yarn post-build",
-    "post-build": "cpy './template/**/*' './lib' --parents --dot",
+    "post-build": "node ./scripts/post-build.js",
     "release": "semantic-release",
     "commit": "cz"
   },
