@@ -1,0 +1,24 @@
+name: Release and Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: 🖇️ Install dependencies
+        run: yarn --frozen-lockfile
+      - name: 🔧 Create production build
+        run: yarn build
+      - name: 📝 Run semantic-release
+        run: yarn release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
