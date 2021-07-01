@@ -1,11 +1,11 @@
 # create-hotdog-app
 
-Production-ready all-in-one react typescript boilerplate, with babel, webpack, prettier, eslint, stylelint, commitlint, lint-staged, and husky.
+Production-ready all-in-one react typescript boilerplate, with [Babel](https://babeljs.io/), [Webpack](https://webpack.js.org/), [Prettier](https://prettier.io/), [ESlint](https://eslint.org/), [Stylelint](https://stylelint.io/), [Commitlint](https://commitlint.js.org/), [Lint-staged](https://github.com/okonet/lint-staged), and [Husky](https://typicode.github.io/husky/#/).
+
+## Get Started
 
 > A Buddhist goes to a hot dog vendor and the vendor asks him "Hey buddy what can I make ya?".
 > ***"make me one with everything"*** replies the Buddhist.
-
-## Get Started
 
 ### yarn
 
