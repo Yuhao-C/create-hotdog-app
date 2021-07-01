@@ -1,9 +1,8 @@
 import { execSync } from 'child_process';
 import fs from 'fs-extra';
-import chalk from 'chalk';
 import path from 'path';
 import semver from 'semver';
-import { green, cyan } from 'chalk';
+import { green, cyan, red } from 'chalk';
 import prompt, { PromptObject } from 'prompts';
 import validateProjectName from 'validate-npm-package-name';
 
@@ -12,7 +11,7 @@ const { log, error } = console;
 export const nodeYarnVersionCheck = (): void => {
   if (semver.lt(process.version, '10.0.0')) {
     error(
-      chalk.red(
+      red(
         'You are running Node ' +
           process.version +
           '.\n' +
@@ -29,7 +28,7 @@ export const nodeYarnVersionCheck = (): void => {
     });
     if (!semver.satisfies(yarnVer, '1.x')) {
       error(
-        chalk.red(
+        red(
           'You are running Yarn ' +
             yarnVer +
             '.\n' +
@@ -40,7 +39,7 @@ export const nodeYarnVersionCheck = (): void => {
       process.exit(1);
     }
   } catch (e) {
-    error(chalk.red(e.stderr));
+    error(red(e.stderr));
     process.exit(1);
   }
 };
@@ -51,10 +50,10 @@ export const dirNameCheck = (
 ): void => {
   if (typeof dirName === 'undefined') {
     error('Please specify the project directory:');
-    log(`  ${chalk.cyan(programName)} ${chalk.green('<project-directory>')}`);
+    log(`  ${cyan(programName)} ${green('<project-directory>')}`);
     log();
     log('For example:');
-    log(`  ${chalk.cyan(programName)} ${chalk.green('hotdog-app')}`);
+    log(`  ${cyan(programName)} ${green('hotdog-app')}`);
     process.exit(1);
   }
 };
@@ -63,8 +62,8 @@ export const appNameCheck = (name: string): void => {
   const validationResult = validateProjectName(name);
   if (!validationResult.validForNewPackages) {
     error(
-      chalk.red(
-        `Cannot create a project named ${chalk.green(
+      red(
+        `Cannot create a project named ${green(
           `"${name}"`,
         )} because of npm naming restrictions:\n`,
       ),
@@ -73,9 +72,9 @@ export const appNameCheck = (name: string): void => {
       ...(validationResult.errors || []),
       ...(validationResult.warnings || []),
     ].forEach(err => {
-      error(chalk.red(`  * ${err}`));
+      error(red(`  * ${err}`));
     });
-    error(chalk.red('\nPlease choose a different project name.'));
+    error(red('\nPlease choose a different project name.'));
     process.exit(1);
   }
 };
@@ -119,15 +118,13 @@ export const checkDirSafe = (root: string, dir: string): void => {
     .filter(file => !isErrorLog(file));
 
   if (conflicts.length > 0) {
-    log(
-      `The directory ${chalk.green(dir)} contains files that could conflict:`,
-    );
+    log(`The directory ${green(dir)} contains files that could conflict:`);
     log();
     for (const file of conflicts) {
       try {
         const stats = fs.lstatSync(path.join(root, file));
         if (stats.isDirectory()) {
-          log(`  ${chalk.blue(`${file}/`)}`);
+          log(`  ${cyan(`${file}/`)}`);
         } else {
           log(`  ${file}`);
         }
@@ -258,8 +255,8 @@ export const printSuccessMessage = (
   log();
   log('We suggest that you begin by typing:');
   log();
-  log(chalk.cyan('  cd'), cdPath);
-  console.log(`  ${chalk.cyan(`yarn dev`)}`);
+  log(cyan('  cd'), cdPath);
+  console.log(`  ${cyan(`yarn dev`)}`);
   console.log();
   console.log('Happy hacking!');
 };

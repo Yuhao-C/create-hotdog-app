@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import path from 'path';
-import { cyan, green } from 'chalk';
+import { cyan, green, red } from 'chalk';
 import fs from 'fs-extra';
 import commander from 'commander';
 import { spawn, execSync } from 'child_process';
@@ -24,7 +24,7 @@ const packageJson = require('../package.json');
 const { log, error } = console;
 
 const handleError = (err: Error, dir: string) => {
-  error(`❌ ${err}`);
+  error(red(`❌ ${err}`));
   fs.rm(dir, { recursive: true, force: true });
 };
 
