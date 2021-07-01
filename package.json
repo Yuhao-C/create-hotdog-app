@@ -31,6 +31,10 @@
   ],
   "author": "Yuhao Chen <yuhaochen0107@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yuhao-C/create-hotdog-app"
+  },
   "devDependencies": {
     "@types/fs-extra": "^9.0.11",
     "@types/node": "^15.12.5",
