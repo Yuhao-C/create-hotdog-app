@@ -1,7 +1,7 @@
 {
   "name": "create-hotdog-app",
   "version": "0.0.0-development",
-  "description": "",
+  "description": "Production-ready all-in-one react typescript boilerplate, with babel, webpack, prettier, eslint, stylelint, commitlint, lint-staged, and husky.",
   "main": "./lib/index.js",
   "bin": {
     "create-hotdog-app": "./bin/create-hotdog-app.js"
