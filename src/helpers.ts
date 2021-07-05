@@ -212,11 +212,14 @@ export const updateReadme = (name: string, dir: string): void => {
 
 export const updateFile = (
   path: string,
-  regex: RegExp,
-  replacement: string,
+  ...replacements: Array<{ regex: RegExp; replacement: string }>
 ): void => {
   const fileStr = fs.readFileSync(path).toString();
-  fs.writeFileSync(path, fileStr.replace(regex, replacement));
+  const finalFileStr = replacements.reduce(
+    (acc, cur) => acc.replace(cur.regex, cur.replacement),
+    fileStr,
+  );
+  fs.writeFileSync(path, finalFileStr);
 };
 
 export const updatePackageJson = (
@@ -237,6 +240,10 @@ export const updatePackageJson = (
     packageJsonPath,
     JSON.stringify(packageJsonTemplate, null, 2),
   );
+};
+
+export const updateManifestJson = (name: string, dir: string): void => {
+  const manifestJsonPath = path.join(dir, '');
 };
 
 export const printSuccessMessage = (

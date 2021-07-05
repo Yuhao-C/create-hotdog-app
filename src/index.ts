@@ -57,6 +57,8 @@ const main = async () => {
 
   try {
     const packageJsonFields = await getPackageJsonFields(appName);
+    const displayName = packageJsonFields.name || appName;
+    const snakeCaseDisplayName = parseSnakeCase(displayName);
 
     // copy file to user directory
     const templateDir = path.resolve(__dirname, 'template');
@@ -64,21 +66,37 @@ const main = async () => {
 
     renameGitignore(root);
 
-    updateReadme(packageJsonFields.name || appName, root);
+    updateReadme(displayName, root);
 
     updatePackageJson(packageJsonFields, root);
 
     updateFile(
-      path.join(root, 'src', 'app.tsx'),
-      /Hotdog App/,
-      parseSnakeCase(packageJsonFields.name || appName),
+      path.join(root, 'public', 'manifest.json'),
+      {
+        regex: /Hotdog App/,
+        replacement: snakeCaseDisplayName,
+      },
+      {
+        regex: /Create Hotdog App Sample/,
+        replacement: snakeCaseDisplayName,
+      },
     );
 
-    updateFile(
-      path.join(root, 'public', 'index.html'),
-      /Hotdog App/,
-      parseSnakeCase(packageJsonFields.name || appName),
-    );
+    updateFile(path.join(root, 'src', 'app.tsx'), {
+      regex: /Hotdog App/,
+      replacement: snakeCaseDisplayName,
+    });
+
+    updateFile(path.join(root, 'public', 'index.html'), {
+      regex: /Hotdog App/,
+      replacement: snakeCaseDisplayName,
+    });
+
+    packageJsonFields.desc &&
+      updateFile(path.join(root, 'public', 'index.html'), {
+        regex: /Website created using create-hotdog-app/,
+        replacement: packageJsonFields.desc,
+      });
 
     // initialize git and install dependencies
     execSync('git init -q', { cwd: root });
