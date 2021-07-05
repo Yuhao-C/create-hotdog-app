@@ -9,15 +9,32 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+
+      - name: Setup Node 🔧
+        uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
-      - name: 🖇️ Install dependencies
-        run: yarn --frozen-lockfile
-      - name: 🔧 Create production build
+          node-version: '14'
+
+      - name: Get yarn cache 📤
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache dependencies 📥
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies ⚙️
+        run: yarn install --frozen-lockfile
+
+      - name: Create production build 🔧
         run: yarn build
-      - name: 📝 Run semantic-release
+
+      - name: Run semantic-release 📝
         run: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
