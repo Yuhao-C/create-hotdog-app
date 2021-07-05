@@ -1,6 +1,6 @@
 # create-hotdog-app
 
-Production-ready all-in-one react typescript boilerplate, with [Babel](https://babeljs.io/), [Webpack](https://webpack.js.org/), [Prettier](https://prettier.io/), [ESlint](https://eslint.org/), [Stylelint](https://stylelint.io/), [Commitlint](https://commitlint.js.org/), [Lint-staged](https://github.com/okonet/lint-staged), and [Husky](https://typicode.github.io/husky/#/).
+Production-ready all-in-one react typescript boilerplate, with [Babel 7](https://babeljs.io/), [Webpack 5](https://webpack.js.org/), [Prettier](https://prettier.io/), [ESlint](https://eslint.org/), [Stylelint](https://stylelint.io/), [Commitlint](https://commitlint.js.org/), [Lint-staged](https://github.com/okonet/lint-staged), and [Husky](https://typicode.github.io/husky/#/).
 
 ## Get Started
 
