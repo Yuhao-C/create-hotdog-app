@@ -1,9 +1,21 @@
 import path from 'path';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import SizePlugin from 'size-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import packageJson from './package.json';
+
+// the pathanme of the output files when referenced in a browser
+let publicPath = '/';
+
+try {
+  const homepagePath = new URL(packageJson.homepage).pathname;
+  publicPath = homepagePath;
+} catch (e) {
+  // invalid homepage URL, resume with default public path "/"
+}
 
 type FileName = Required<webpack.Configuration>['output']['filename'];
 const getFileName =
@@ -25,7 +37,7 @@ const getFileName =
     return `${prefix}/${name}_${id}.${computedHash}.${type}`; // entry chunk
   };
 
-const getProdConfig = (publicPath: string): webpack.Configuration => ({
+const prodConfig: webpack.Configuration = {
   mode: 'production',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -51,11 +63,15 @@ const getProdConfig = (publicPath: string): webpack.Configuration => ({
       filename: getFileName('css'),
       chunkFilename: 'static/css/chunk_[id].[contenthash:8].css',
     }),
-    new CssMinimizerPlugin(),
     new SizePlugin({ writeFile: false }),
     new CleanWebpackPlugin(),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+      PUBLIC_URL: publicPath.replace(/\/$/, ''), // remove trailing slash here
+    }),
   ],
   devtool: 'source-map',
-});
+};
 
-export default getProdConfig;
+export default prodConfig;

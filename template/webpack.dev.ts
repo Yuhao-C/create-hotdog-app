@@ -1,10 +1,9 @@
 import path from 'path';
 import webpack from 'webpack';
-import WebpackDevServer from 'webpack-dev-server';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 
-const getDevConfig = (): webpack.Configuration & {
-  devServer: WebpackDevServer.Configuration;
-} => ({
+const devConfig: webpack.Configuration = {
   mode: 'development',
   output: {
     assetModuleFilename: '[name][ext]',
@@ -21,7 +20,14 @@ const getDevConfig = (): webpack.Configuration & {
       },
     ],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+      PUBLIC_URL: '',
+    }),
+  ],
   devtool: 'inline-source-map',
   devServer: {
     contentBase: path.resolve('public'),
@@ -32,6 +38,6 @@ const getDevConfig = (): webpack.Configuration & {
     host: '0.0.0.0',
     useLocalIp: true,
   },
-});
+};
 
-export default getDevConfig;
+export default devConfig;

@@ -4,13 +4,10 @@ import { merge } from 'webpack-merge';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackBarPlugin from 'webpackbar';
-import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import StylelingPlugin from 'stylelint-webpack-plugin';
-import getDevConfig from './webpack.dev';
-import getProdConfig from './webpack.prod';
-
-// the public URL address of the output files when referenced in a browser
-const PUBLIC_URL = '/';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import devConfig from './webpack.dev';
+import prodConfig from './webpack.prod';
 
 const commonConfig: webpack.Configuration = {
   entry: './src/index.tsx',
@@ -21,6 +18,7 @@ const commonConfig: webpack.Configuration = {
     runtimeChunk: {
       name: (entrypoint: { name: string }) => `runtime-${entrypoint.name}`,
     },
+    minimizer: [new CssMinimizerPlugin()], // by default works in produciton only
   },
 
   resolve: {
@@ -65,11 +63,6 @@ const commonConfig: webpack.Configuration = {
       template: path.resolve(__dirname, 'public/index.html'),
     }),
     new WebpackBarPlugin({}),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
-      PUBLIC_URL: PUBLIC_URL.replace(/\/$/, ''), // remove trailing slash here
-    }),
   ],
   stats: 'errors-only',
 };
@@ -77,9 +70,9 @@ const commonConfig: webpack.Configuration = {
 module.exports = (_: Record<string, string>, args: Record<string, string>) => {
   switch (args.mode) {
     case 'development':
-      return merge(commonConfig, getDevConfig());
+      return merge(commonConfig, devConfig);
     case 'production':
-      return merge(commonConfig, getProdConfig(PUBLIC_URL));
+      return merge(commonConfig, prodConfig);
     default:
       throw new Error('No matching configuration was found!');
   }
