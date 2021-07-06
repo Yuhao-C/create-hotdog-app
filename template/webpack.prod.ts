@@ -1,18 +1,25 @@
 import path from 'path';
+import fs from 'fs-extra';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import SizePlugin from 'size-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import packageJson from './package.json';
+import { green, cyan } from 'chalk';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const packageJson = require('./package.json');
 
 // the pathanme of the output files when referenced in a browser
 let publicPath = '/';
 
 try {
   const homepagePath = new URL(packageJson.homepage).pathname;
-  publicPath = homepagePath;
+  publicPath =
+    homepagePath[homepagePath.length - 1] === '/'
+      ? homepagePath
+      : `${homepagePath}/`;
 } catch (e) {
   // invalid homepage URL, resume with default public path "/"
 }
@@ -70,6 +77,33 @@ const prodConfig: webpack.Configuration = {
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
       PUBLIC_URL: publicPath.replace(/\/$/, ''), // remove trailing slash here
     }),
+    {
+      apply: (compiler: webpack.Compiler): void => {
+        compiler.hooks.afterEmit.tap('AfterEmitPlugin', () => {
+          const { log } = console;
+          log(
+            `The project is built assuming it is hosted at ${green(
+              publicPath,
+            )}`,
+          );
+          log(
+            `You can control this with the ${green(
+              'homepage',
+            )} field in your ${cyan('package.json')}.\n`,
+          );
+          log(`The ${cyan('dist')} folder is ready to be deployed.\n`);
+
+          // copy public folder
+          const appDirectory = fs.realpathSync(process.cwd());
+          const resolveApp = (relativePath: string) =>
+            path.resolve(appDirectory, relativePath);
+          fs.copySync(resolveApp('public'), resolveApp('dist'), {
+            dereference: true,
+            filter: file => file !== resolveApp('public/index.html'),
+          });
+        });
+      },
+    },
   ],
   devtool: 'source-map',
 };

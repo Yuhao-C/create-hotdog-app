@@ -22,16 +22,8 @@ yarn dev
 
 Builds the app for production to the `dist` folder using [Babel](https://babeljs.io/) and [Webpack](https://webpack.js.org/)
 
-> Make sure to fill in the `homepage` field in `package.json`. The build script will use the homepage path to generate urls to static files in index.html. The dafault path is `/` if `homepage` field is not specified.
+> Make sure to fill in the `homepage` field in `package.json`. The build script will use the homepage to generate paths to static files in index.html. The dafault path is `/` if `homepage` field is not specified.
 
 ```bash
 yarn build
-```
-
-## serve
-
-Serve the production code locally at <http://localhost:5000> after `yarn build`.
-
-```bash
-yarn serve
 ```

@@ -261,9 +261,6 @@ export const printSuccessMessage = (
   log(cyan(`  yarn build`));
   log('    Bundles the app into static files for production.');
   log();
-  log(cyan(`  yarn serve`));
-  log('    Serve the production code on a local server');
-  log();
   log('We suggest that you begin by typing:');
   log();
   log(cyan('  cd'), cdPath);

@@ -40,8 +40,6 @@ hotdog-app
 │   ├── logo512.png
 │   ├── manifest.json
 │   └── robots.txt
-├── scripts
-│   └── post-build.ts
 ├── src
 │   ├── types
 │   │   └── global.d.ts
@@ -88,12 +86,4 @@ Builds the app for production to the `dist` folder using [Babel](https://babeljs
 
 ```bash
 yarn build
-```
-
-## serve
-
-Serve the production code locally at <http://localhost:5000> after `yarn build`.
-
-```bash
-yarn serve 
 ```

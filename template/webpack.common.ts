@@ -6,8 +6,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackBarPlugin from 'webpackbar';
 import StylelingPlugin from 'stylelint-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import devConfig from './webpack.dev';
-import prodConfig from './webpack.prod';
 
 const commonConfig: webpack.Configuration = {
   entry: './src/index.tsx',
@@ -67,12 +65,15 @@ const commonConfig: webpack.Configuration = {
   stats: 'errors-only',
 };
 
-module.exports = (_: Record<string, string>, args: Record<string, string>) => {
+module.exports = async (
+  _: Record<string, string>,
+  args: Record<string, string>,
+) => {
   switch (args.mode) {
     case 'development':
-      return merge(commonConfig, devConfig);
+      return merge(commonConfig, (await import('./webpack.dev')).default);
     case 'production':
-      return merge(commonConfig, prodConfig);
+      return merge(commonConfig, (await import('./webpack.prod')).default);
     default:
       throw new Error('No matching configuration was found!');
   }
