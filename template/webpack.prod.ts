@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs-extra';
 import webpack from 'webpack';
+import { merge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import SizePlugin from 'size-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { green, cyan } from 'chalk';
+import commonConfig from './webpack.common';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJson = require('./package.json');
@@ -108,4 +110,4 @@ const prodConfig: webpack.Configuration = {
   devtool: 'source-map',
 };
 
-export default prodConfig;
+export default merge(commonConfig, prodConfig);

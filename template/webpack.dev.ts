@@ -1,7 +1,9 @@
 import path from 'path';
 import webpack from 'webpack';
+import { merge } from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
+import commonConfig from './webpack.common';
 
 const devConfig: webpack.Configuration = {
   mode: 'development',
@@ -40,4 +42,4 @@ const devConfig: webpack.Configuration = {
   },
 };
 
-export default devConfig;
+export default merge(commonConfig, devConfig);

@@ -4,8 +4,8 @@
   "private": true,
   "description": "",
   "scripts": {
-    "dev": "webpack serve --mode development --config webpack.common.ts",
-    "build": "webpack --mode production --config webpack.common.ts",
+    "dev": "webpack serve --mode development --config webpack.dev.ts",
+    "build": "webpack --mode production --config webpack.prod.ts",
     "prepare": "husky install"
   },
   "repository": {

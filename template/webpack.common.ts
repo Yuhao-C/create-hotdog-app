@@ -1,6 +1,5 @@
 import path from 'path';
 import webpack from 'webpack';
-import { merge } from 'webpack-merge';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackBarPlugin from 'webpackbar';
@@ -65,16 +64,4 @@ const commonConfig: webpack.Configuration = {
   stats: 'errors-only',
 };
 
-module.exports = async (
-  _: Record<string, string>,
-  args: Record<string, string>,
-) => {
-  switch (args.mode) {
-    case 'development':
-      return merge(commonConfig, (await import('./webpack.dev')).default);
-    case 'production':
-      return merge(commonConfig, (await import('./webpack.prod')).default);
-    default:
-      throw new Error('No matching configuration was found!');
-  }
-};
+export default commonConfig;
